@@ -1,1 +1,31 @@
-document.addEventListener('DOMContentLoaded', () => {\n    const taskInput = document.getElementById('taskInput');\n    const addButton = document.getElementById('addButton');\n    const taskList = document.getElementById('taskList');\n\n    addButton.addEventListener('click', () => {\n        const taskText = taskInput.value.trim();\n        if (taskText) {\n            const listItem = document.createElement('li');\n            listItem.textContent = taskText;\n            const removeButton = document.createElement('button');\n            removeButton.textContent = 'Remove';\n            removeButton.classList.add('remove');\n            removeButton.addEventListener('click', () => {\n                taskList.removeChild(listItem);\n            });\n            listItem.appendChild(removeButton);\n            listItem.addEventListener('click', () => {\n                listItem.classList.toggle('completed');\n            });\n            taskList.appendChild(listItem);\n            taskInput.value = '';\n        }\n    });\n});
+document.addEventListener('DOMContentLoaded', () => {
+  const taskInput = document.getElementById('taskInput');
+  const addButton = document.getElementById('addButton');
+  const taskList = document.getElementById('taskList');
+
+  addButton.addEventListener('click', () => {
+    const taskText = taskInput.value.trim();
+    if (taskText) {
+      const listItem = document.createElement('li');
+      listItem.textContent = taskText;
+
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.classList.add('remove');
+
+      removeButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent toggling complete when clicking remove
+        taskList.removeChild(listItem);
+      });
+
+      listItem.appendChild(removeButton);
+
+      listItem.addEventListener('click', () => {
+        listItem.classList.toggle('completed');
+      });
+
+      taskList.appendChild(listItem);
+      taskInput.value = '';
+    }
+  });
+});
